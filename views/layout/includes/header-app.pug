@@ -1,0 +1,33 @@
+
+
+header.bg-indigo-600.p-4
+    div.container.mx-auto.flex.justify-between.items-center
+        a(href="/")
+            h1.text-2xl.text-white.font-extrabold.text-center Bienes 
+                span.font-normal Raices
+        
+        nav(class="my-2 text-sm md:flex md:items-center md:gap-3 font-bold text-white hidden")
+            a(href="/auth/register") Crear cuenta
+            a(href="/auth/login") Iniciar sesión
+
+div(class="bg-indigo-700 py-3 hidden lg:block")
+    div(class="container mx-auto flex justify-between")
+        nav(class="flex gap-4 items-center")
+            a(href=`/category/${1}` class="text-sm font-bold uppercase text-white") Casas
+            a(href=`/category/${2}` class="text-sm font-bold uppercase text-white") Departamentos
+            a(href=`/category/${3}` class="text-sm font-bold uppercase text-white") Bodegas 
+            a(href=`/category/${4}` class="text-sm font-bold uppercase text-white") Terrenos
+            a(href=`/category/${5}` class="text-sm font-bold uppercase text-white") Cabañas
+
+        form(action="/search" method="POST" class="flex gap-3 items-center")
+            input(type="hidden" name="_csrf" value= csrfToken)
+            label(for="inputSearch" class="text-sm uppercase font-bold text-white") Búsqueda 
+            input(
+                type="text" 
+                id="inputSearch" 
+                name="search"
+                placeholder="Buscar Propiedad"
+                class="p-2 rounded-lg shadow text-sm" ) 
+            button(
+                type="submit" 
+                class="bg-indigo-800 hover:bg-indigo-400 rounded-lg text-white uppercase font-bold p-2 text-sm") Buscar

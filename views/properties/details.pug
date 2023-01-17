@@ -1,0 +1,88 @@
+extends ../layout/app
+
+block styles
+    link(rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css")
+
+
+block contenido
+
+    //- pre= JSON.stringify(property, undefine, 2)
+
+    div(class="py-5")
+        h1(class="text-4xl my-10 front-extrabold text-center")
+
+        div     
+            a(href="#" class="font-bold text-gray-600 text-sm") Categoria:
+                span(class="font-normal")= property.title
+
+        div(class="mt-5 md:flex md:gap-4 md:items-start")
+
+            div(class="md:w-2/3 bg-white shadow rounded-lg")
+                img(src=`/uploads/${property.image}` alt=`${property.title}`)
+
+                div(class="px-5 py-10 space-y-3")
+
+                    p= property.description
+
+                    h2(class="text-2xl leading-6 font-bold text-gray-900") Información Propiedad
+
+                    div(class="grid grid-cols-1 md:grid-cols-2")
+
+                        p(class="text-gray-600 font-bold text-xs") Habitaciones 
+                            span(class="text-gray-800 block text-lg")= property.bedrooms
+
+                        p(class="text-gray-600 font-bold text-xs") Baños 
+                            span(class="text-gray-800 block text-lg")= property.bathrooms
+
+                        p(class="text-gray-600 font-bold text-xs") Estacionamiento 
+                            span(class="text-gray-800 block text-lg")= property.parkings
+
+                        p(class="text-gray-600 font-bold text-xs") Precio 
+                            span(class="text-gray-800 block text-lg")= property.price.title
+
+
+
+            div(class="md:w-2/3 bg-white shadow rounded-l")
+                h3(class="text-center py-10 leading-6 text-2xl font-bold text-gray-900") Ubicación 
+
+                div#mapa.h-96 
+                    p(class="hidden" id="lat")= property.lat
+                    p(class="hidden" id="lng")= property.lng
+
+                div(class="p-5")
+                    p(class="text-gray-600 font-bold text-sm") Dirección 
+                        span(id="street" class="text-gray-800 block text-lg")= property.street
+
+                    if !isSeller 
+                        h3(class="text-2xl text-center my-10 font-extrabold text-gray-900") Vendedor
+
+                        if isSend 
+                            p(class="p2 text-center bg-green-500 text-white uppercase font-bold") Mensaje enviado con éxito
+
+                        else if user
+
+                            if errors
+                                div(class="max-w-md mx-auto my-10")
+                                    each error in errors
+                                        p(class="bg-red-600 text-white uppercase text-xs text-center p-2 mb-1 font-bold")= error.msg
+
+
+                            form(method="POST")
+                                input(type="hidden" name="_csrf" value= csrfToken)
+                                div(class="space-y-5")
+                                    label(for="messageInput") Mensaje
+                                    textarea(
+                                        id="messageInput"
+                                        name="message"
+                                        class="w-full p-2 border border-gray-300 rounded-lg shadow"
+                                        placeholder="Escribe tu mensaje..." ) 
+                                    button(class="bg-indigo-600 text-white font-bold uppercase text-sm w-full p-2" type="submit") Contactar
+
+                        else
+                            div(class="flex justify-center flex-col items-center gap-2")
+                                p(class="text-center") Si deseas contactar al vendedor
+                                a(class="text-indigo-600" href="/auth/login") debes iniciar sesión
+
+block scripts
+    script(src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js")
+    script(src="/js/showMap.js")

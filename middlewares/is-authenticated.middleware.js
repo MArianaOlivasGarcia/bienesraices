@@ -1,0 +1,44 @@
+
+
+
+
+
+import jwt from 'jsonwebtoken';
+import { User } from '../models/index.js';
+
+const isAuthenticated = async(req, res, next) => {
+
+
+    const { _accessToken } = req.cookies;
+
+    if ( !_accessToken ) {
+        req.user = null;
+        return next();
+    }
+
+
+    try {
+
+        const { id } = jwt.verify(_accessToken, process.env.JWT_SEED);
+
+        const user = await User.scope('deletePassword').findByPk(id);
+
+        if ( !user ) {
+            req.user = null;
+            return next();
+        }
+
+        req.user = user;
+        next();
+        
+    } catch (error) {
+        console.log(error)
+        return res.clearCookie('_accessToken').redirect('/auth/login')
+    }
+
+
+
+}
+
+
+export default isAuthenticated;

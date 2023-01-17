@@ -1,0 +1,66 @@
+extends ../layout/index
+
+block contenido
+    div.py-10
+        h2.text-center.text-2xl.font-extrabold.my-10 Bienes
+            span.font-normal Raices
+        
+        h2.text-center.text-xl.font-extrabold= namePage
+
+        if errors
+            div(class="max-w-md mx-auto my-10")
+                each error in errors
+                    p(class="bg-red-600 text-white uppercase text-xs text-center p-2 mb-1 font-bold")= error.msg
+
+        div.mt-8.mx-auto.max-w-md
+            div.bg-white.py-8.px-4.shadow
+                
+                form(method="POST" action="/auth/register" noValidate)
+                    
+                    input(type="hidden" name="_csrf" value= csrfToken)
+
+                    div 
+                        label(class="block text-sm uppercase text-gray-500 mb-3 font-bold"
+                            for="inputName") Nombre completo
+                        input(type="text" 
+                            id="inputName" 
+                            placeholder="Nombre completo"
+                            name="name"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400"
+                            value= user ? user.name : '')
+                    div 
+                        label(class="block mt-5 text-sm uppercase text-gray-500 mb-3 font-bold"
+                            for="inputEmail") Correo electrónico
+                        input(type="email" 
+                            id="inputEmail" 
+                            placeholder="Correo electrónico"
+                            name="email"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400"
+                            value= user ? user.email : '')
+
+                    div 
+                        label(class="block mt-5 text-sm uppercase text-gray-500 mb-3 font-bold"
+                            for="inputPassword") Contraseña
+                        input(type="password" 
+                            id="inputPassword" 
+                            placeholder="Contraseña"
+                            name="password"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400"
+                            value= user ? user.password : '')
+
+                    div 
+                        label(class="block mt-5 text-sm uppercase text-gray-500 mb-3 font-bold"
+                            for="inputConfirmPassword") Confirmar contraseña
+                        input(type="password" 
+                            id="inputConfirmPassword" 
+                            placeholder="Confirmar contraseña"
+                            name="confirmPassword"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400"
+                            value= user ? user.confirmPassword : '')
+
+                    div.text-center.mt-5
+                        a.text-gray-500.text-xs(href="/auth/login") ¿Ya tienes una cuenta? Iniciar sesión
+
+
+                    div 
+                        button(class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-white mt-5 py-3" type="submit") Crear cuenta
